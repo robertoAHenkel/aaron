@@ -165,4 +165,10 @@ Now that we have implemented chunking and configured embeddings, let's run the c
      }
      ```
 
-Great Job! Add as many more documents as you like and play around with the indexing pipeline to improve your understanding.
+## Next Steps
+Run your app with:
+```
+npm run dev 
+```
+
+Add as many more documents as you like and play around with the indexing pipeline to improve your understanding.
