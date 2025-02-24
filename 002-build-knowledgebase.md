@@ -1,19 +1,11 @@
-## Challenge 2: Create Knowledge Base - "The Library Builder" 📚
+# Challenge 2: Create Knowledge Base - "The Library Builder" 📚
 
-
-**Mission:**  Welcome back! For your second mission, you'll step into the role of "The Library Builder".  Aaron the  intern needs a brain, and that brain will be a knowledge base of the content you scraped and extracted in the first challenge. In this challenge, you'll learn how to ingest this data into [Firestore](https://cloud.google.com/firestore/docs/overview), break it down into manageable pieces (chunks), create dense text embeddings, store these embeddings and finally make them searchable.  This process will transform raw text into a searchable, AI-ready knowledge base.
+**Mission:**  For your second mission, you'll step into the role of "The Library Builder".  Aaron the intern needs a brain, and that brain will be a knowledge base of the content you scraped and extracted in the first challenge. In this challenge, you'll learn how to ingest this data into [Firestore](https://cloud.google.com/firestore/docs/overview), break it down into manageable pieces (chunks), create dense text embeddings, store these embeddings and finally make them searchable.  This process will transform raw text into a searchable, AI-ready knowledge base.
 
 In case you have never worked with text embeddings and RAG before, or you need a refresher check out [our documentation](https://cloud.google.com/use-cases/retrieval-augmented-generation?hl=en).
 
-**Learning Objectives:**
-
-*   **Chunking Strategies:** Explore different techniques to divide large documents into smaller, semantically meaningful chunks. Understand how chunk size and overlap affect search relevance.
-*   **Embedding Creation:** Learn how text embeddings are generated using the Gemini API and their crucial role in semantic search. Grasp the concept of vector representations of text.
-*   **Embedding Storage:**  Get hands-on experience with storing embeddings in Firestore, which acts as our vector database for this lab.
-
 **Key Technologies & Concepts:**
 
-*   **Next.js:**  Building the frontend and backend logic for our indexing process.
 *   **Firestore:**  Utilizing Firestore as a document and vector database to store document chunks and their embeddings.
 *   **Gemini API (via `EmbeddingService`):**  Leveraging the Gemini API to generate embeddings for our document chunks. See `src/app/api/indexing/embedding.tsx` for implementation details.
 *   **Chunking Algorithms (`DocumentChunker`):** Implementing strategies to split documents into chunks.  Examine `src/app/api/indexing/chunking.tsx` and `src/app/api/indexing/processing.tsx` for the chunking logic.
@@ -43,7 +35,7 @@ Let's dive into the key components of our indexing pipeline. This system is desi
    - This is the orchestrator of our indexing pipeline - Here you find the crucial indexing logic and makes calls to the required services for sub steps.
    - Manages the entire flow from content extraction to embedding storage
    - Key methods:
-     - `processDocument`: Handles the complete indexing workflow
+     - `processDocument`: Handles the complete scrapign, extraction & indexing workflow
      - `processEmbeddings`: Manages batch processing of embeddings with retry logic
 
 4. **Document Chunker (`src/app/api/indexing/chunking.tsx`)**
@@ -62,7 +54,7 @@ Let's dive into the key components of our indexing pipeline. This system is desi
 
 ## Step 2: Implement Document Chunking 📄
 
-Now that you understand the codebase, let's implement the chunking strategy for our knowledge base. We'll use LangChain's [RecursiveCharacterTextSplitter](https://js.langchain.com/docs/concepts/text_splitters/#text-structured-based) to break down documents into semantic chunks while preserving context.
+Now that you understand the codebase, let's implement the chunking strategy for our knowledge base. For example, you could use [RecursiveCharacterTextSplitter](https://js.langchain.com/docs/concepts/text_splitters/#text-structured-based) to break down documents into semantic chunks while preserving context.
 
 #### Why Do We Need Chunking? 🤔
 
@@ -72,11 +64,13 @@ Before diving into implementation, let's understand why chunking is crucial:
 - Improve embedding quality and retrieval precision
 - Optimize computational resources
 
-[Learn more about chunking strategies](https://js.langchain.com/docs/concepts/text_splitters/#overview)
+Here some additional resources:
+* [Learn more about chunking strategies](https://js.langchain.com/docs/concepts/text_splitters/#overview)
+* [Guide on chunking strategies](https://www.sagacify.com/news/a-guide-to-chunking-strategies-for-retrieval-augmented-generation-rag)
 
 #### Your Task: Implement the DocumentChunker 🛠️
 
-Follow the method calls starting at `src/app/api/indexing/processing.tsx` for the chunking. Find the Chunking implementaiton and fix it.
+Follow the method calls starting at `src/app/api/indexing/processing.tsx` for the chunking. Find the Chunking implementaiton, choose your chunking method of choise and fix it in the codebase. The Langchain documentation above might prove to be helpful for the syntax.
 
 
 ## Step 3: Configure Text Embeddings 🧬
@@ -99,7 +93,7 @@ Google provides multiple embedding models. Review the documentation below and ev
 
 ### Your Task: Configure the Embedding Service
 
-Follow the indexing logic in `src/app/api/indexing/processing.tsx`, locate the embedding generation implementation and complete it with the missing model identifier.
+Follow the indexing logic in `src/app/api/indexing/processing.tsx`, locate the embedding generation implementation. Learn about the available embedding models on GCP and decide which one to use. Finally, complete the codebase with the missing model parameters.
 
 
 ## Step 4: Run and Verify the Indexing Pipeline 🚀
@@ -115,11 +109,9 @@ Now that we have implemented chunking and configured embeddings, let's run the c
 
 2. **Navigate to the Admin Panel:**
    - Open `http://localhost:3000/admin`
-   - You should see the "Knowledge Scraper Panel"
 
-3. **Add Documentation URLs:**
-   - Copy on eor several GCP documentation URLs
-   - Paste them into the "URLs" text area in the Admin Panel
+3. **Add Scraping Target URLs:**
+   - For example, copy one or  several GCP documentation URLs
    - Add a description such as "GCP Documentation in it's original wording in english language"
 
 4. **Extract Content:**
@@ -148,13 +140,13 @@ Now that we have implemented chunking and configured embeddings, let's run the c
    - Select your project
 
 2. **Examine Collections:**
-   - You should find two collections in your Firestore DB "documents" and chunks
+   - You should find two collections in your Firestore DB "documents" and "chunks"
    - Examine the data they contain. Can you find the embedded text?
 
 3. **Verify Vector Search Index:**
    - In Firestore, navigate to "Indexes"
    - Look for the vector index on the `chunks` collection
-   - Confirm index configuration:
+   - Confirm index configuratio in the UI:
      ```terraform
      fields {
        field_path = "embedding"
@@ -165,10 +157,4 @@ Now that we have implemented chunking and configured embeddings, let's run the c
      }
      ```
 
-## Next Steps
-Run your app with:
-```
-npm run dev 
-```
-
-Add as many more documents as you like and play around with the indexing pipeline to improve your understanding.
+### Congratulaions, you finished challenge 2! On to the next one ...
