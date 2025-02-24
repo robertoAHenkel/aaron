@@ -4,23 +4,9 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { geminiService } from '@/lib/google-ai-studio/gemini';
 
 // Create the RAG-aware summary prompt template
-const summaryPrompt = PromptTemplate.fromTemplate(`
-You are a helpful Google Cloud Platform technical expert. Based on the following relevant documentation excerpts,
-provide a clear, accurate, and concise answer to the user's question. If the provided context doesn't fully
-answer the question, acknowledge this and provide what information you can from the available context.
 
-Context from GCP Documentation:
-{context}
-
-User Question: {question}
-
-Please provide a technical summary that:
-1. Directly answers the user's question using information from the documentation
-2. Includes specific technical details and steps when available
-3. Maintains technical accuracy without including information not present in the context
-4. Acknowledges if any part of the question cannot be fully answered with the given context
-
-Summary and Answer:`);
+// TODO: Implement the search result summary prompt template including required variables
+const summaryPrompt = PromptTemplate.fromTemplate(``);
 
 interface SearchResult {
   content: string;
@@ -57,16 +43,14 @@ export async function POST(request: NextRequest) {
       })
       .join('\n');
 
-    // Format the prompt
+    // TODO: Select the correct prompt parameter input
     const formattedPrompt = await summaryPrompt.format({
-      question: query,
-      context: formattedContext,
+      question: ,
+      context: ,
     });
 
     // Call the model
-    console.log('Sending prompt to Vertex AI:', formattedPrompt);
     const result = await geminiService.generateContent(formattedPrompt);
-    console.log('Received result from Vertex AI:', result);
 
     return NextResponse.json({ 
       summary: result,
