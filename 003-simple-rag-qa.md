@@ -15,13 +15,6 @@ Key benefits of RAG:
 - Maintains data privacy by using your controlled data sources
 - Enables domain-specific expertise
 
-## Learning Objectives 📚
-
-- Implement vector similarity search
-- Build a RAG pipeline
-- Handle search results and answer generation
-- Present information with proper citations
-
 
 ## Step 1: Explore the Search Codebase 🕵️‍♀️
 
@@ -30,7 +23,7 @@ Before implementing the search functionality, let's explore the existing codebas
 ### Core Components for a simple RAG Q&A implementation
 
 1.  **Search Page (`src/app/search/page.tsx`)**:
-    -   This is the main page component for the semantic search feature.
+    -   This is the page component for the semantic search feature.
     -   It integrates the `useVectorSearch` hook to perform searches and display results.
     -   It also uses the `useSummaryGen` hook to generate summaries.
     -   Key elements to examine:
@@ -49,8 +42,16 @@ Before implementing the search functionality, let's explore the existing codebas
     -   Key elements to examine:
         -   `performSearch` function: This function currently fetches data from `/api/test-vectorsearch`. You'll need to understand how this API route is implemented in the backend later.
 
-4.  **Vector Search Route (`src/app/api/test-vectorsearch/route.ts`)**:
-    -   This Backend route (`route.ts` file) is the backend endpoint for handling vector searches.
+4.  **Summary Generation Hook (`src/hooks/useSummaryGen.tsx`)**:
+    -   This hook manages the generation of AI summaries based on search results.
+    -   It handles state for the summary content, loading status, and potential errors.
+    -   Key elements to examine:
+        -   `generateSummary` function: Takes a query and search results, sends them to `/api/generate-summary` endpoint.
+        -   State management for `summary`, `isLoading`, and `error` states.
+        -   Proper error handling and type definitions for search results and options.
+
+5.  **Vector Search Route (`src/app/api/test-vectorsearch/route.ts`)**:
+    -   This Backend route (`route.ts` file) is the endpoint for handling vector searches.
     -   It receives the user's query from the frontend, generates an embedding for it, and performs a vector similarity search against the Firestore database.
     -   *This is where the core RAG logic lives.* 
     -   Key elements to examine:
@@ -96,7 +97,7 @@ Now that we have our query embeddings, let's implement the nearest neighbor sear
 
 ### Background
 
-In the previous step, we generated embeddings for user queries. Now we need to:
+To complete the search functionality, we still need to:
 1. Use these embeddings to find similar documents in our Firestore collection
 2. Return the most relevant results based on vector similarity
 3. Configure appropriate distance measures and thresholds
@@ -123,7 +124,9 @@ The summary generation is the final piece of our RAG pipeline. It:
 
 ### Your Task
 
-Enhance the prompt template to create more effective summaries. Consider:
+Write the prompt template to create effective result summaries. The prompt template requires two input variables. Considering the summary generation codebase, identify which variables are required in the prompt. Finally, implement the prompt accordingly
+
+Consider:
 
 1. **System Role and Context**
    - Define a clear expert persona
@@ -141,25 +144,39 @@ Enhance the prompt template to create more effective summaries. Consider:
    - Handling incomplete information
    - Managing contradictory sources
    - Dealing with ambiguous queries
+langchain 
 
 ### Need Help?
 
 - Review Google's [Prompt Engineering Best Practices](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/prompt-engineering)
 - Understand [RAG-specific prompting techniques](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/rag)
+- [Langchain Prompt Templates](https://python.langchain.com/docs/concepts/prompt_templates/)
 
+
+## Step 5: Complete the Prompt Parameters & Log Input and Output
+
+In the `generate-summary/route.tsx` file, we need to correctly pass the parameters to the prompt template. The `formattedPrompt` is currently missing its required parameters. Update the parameters accordingly.
+
+These parameters will be used by the prompt template to generate the appropriate summary response.
+
+Next, add a logging functionality that prints the full prompt that is send to the LLM every time a user triggers a search. Also, add the full output that the model returns given your prompt.
+
+You should use a syntax similar to:
+```typescript
+console.log("Hello World")
+```
 
 ## Next Steps
-Run the application with 
-
-```
+Run the appliction with:
+```bash
 npm run dev
 ```
 
-And visit `/search`
+Once the app is running visit `/search`.
 
 That will bring you to the search interface
-1. Test with a variety of queries
-2. Refine the prompt based on results
+1. Test with a variety of queries that require information from your knowledge base to provide accurate answers
+2. Experiment with the summary prompt based on results, to cater the result summary to your preference
 
 
 **Challenge Complete!** 🎉
