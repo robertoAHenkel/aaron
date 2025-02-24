@@ -6,12 +6,16 @@ import { PromptTemplate } from "@langchain/core/prompts";
 const docScraper = new DocumentScraper();
 
 // Create extraction prompt template
+
+// TODO: Write html extraction prompt template
 const extractionPrompt = PromptTemplate.fromTemplate(``);
 
 export async function POST(request: NextRequest) {
   try {
     const { urls, entityDescription } = await request.json();
     console.log("Content Extraction for: ", urls, entityDescription)
+
+    // TODO: Adjust to more powerful Gemini version for better extraction results
     const geminiService = initializeGeminiService("gemini-1.5-flash-8b");
 
     if (!urls || !Array.isArray(urls) || urls.length === 0) {

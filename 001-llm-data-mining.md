@@ -17,7 +17,7 @@ Familiarize yourself with the following files:
 *   **`src/app/admin/page.tsx`**: (src/app/admin/page.tsx) This is the Admin Panel page built with React and Next.js. It provides a user interface to trigger content extraction from URLs by calling the content-extraction API endpoint. It also displays the extracted content and allows for indexing of documents. It contains the `handleExtractContent` function that contains the actual extraction logic. Review this code and try to undertand the logic.
 *   **`src/app/components/AdminPanel/URLManager.tsx`**: (src/app/components/AdminPanel/URLManager.tsx) This React component provides the input form in the Admin Panel for users to enter URLs and an entity description for content extraction. It handles user input and submission to trigger the extraction process.
 *   **`src/app/api/content-extraction/route.ts`**: (src/app/api/content-extraction/route.ts: startLine: 1, endLine: 91) This Next.js route handles the API endpoint for content extraction. It receives URLs and an entity description, scrapes content from the URLs, and is intended to use the Gemini API to extract relevant information. It also is home to the extraction prompt template.
-*   **`src/app/api/indexing/scraping.tsx`**: (src/app/api/indexing/scraping.tsx: startLine: 1, endLine: 79) This file contains the `DocumentScraper` class, responsible for scraping HTML content from URLs using `cheerio`.
+*   **`src/app/api/indexing/scraping.tsx`**: (src/app/api/indexing/scraping.tsx: startLine: 1, endLine: 79) This file contains the `DocumentScraper` class, responsible for scraping HTML content.
 *   **`src/lib/google-ai-studio/gemini.ts`**: (src/lib/google-ai-studio/gemini.ts: startLine: 1, endLine: 206) This file defines the `GeminiService` class, which provides an interface for interacting with the Google Gemini API. You'll use this service to process the scraped content.
 
 Tip: If you are having trouble understanding what's going on in the code, why not connect [Gemini Code Assist](https://cloud.google.com/products/gemini/code-assist?hl=en) to ask for help?
@@ -72,20 +72,18 @@ Open `src/lib/google-ai-studio/gemini.ts` and locate the `generateContent` metho
   - [Text Generation Guide](https://ai.google.dev/gemini-api/docs/text-generation?lang=node)
 
 **Testing Your Fix:**
-1. After implementing your fix, try using the Admin Panel's URL content extraction feature
-2. Enter a URL (e.g., a GCP documentation page) and an entity description
-3. Click "Get Target Content" - if your fix works, you should see the extracted content appear!
-
+1. You are now able to run Aaron locally using `npm run dev`.
+2. Try our the Admin Panel's URL content extraction feature. For example you could try to extract the addresses and names of berlins top toy shops [from this website](https://www.visitberlin.de/en/blog/top-11-childrens-stores-berlin-christmas-shopping)
 
 
 ### Step 4: Explore Gemini Models for Enhanced Extraction 🚀
 
-Currently, the application is not using the most powerful model. To optimize the content extraction process, especially for accuracy and handling complex content, it's beneficial to explore if a more powerful Gemini model is available and suitable for our task.
+Currently, the application is not using the most powerful model by default. To optimize the content extraction process, especially for accuracy and handling complex content, it's beneficial to explore if a more powerful Gemini model is available and suitable for our task.
 
 **Your Task:**
 
 1.  **Explore Available Gemini Models:**
-    *   Visit the [Gemini API documentation on models](https://ai.google.dev/gemini-api/docs/models/gemini) to understand the different Gemini models available, such as Gemini 2.0 Flash, Gemini 1.5 Pro, and others. Pay attention to their capabilities, strengths, and use cases.
+    *   Visit the [Gemini API documentation on models](https://ai.google.dev/gemini-api/docs/models/gemini) to understand the different Gemini models available. Pay attention to their capabilities, strengths, and use cases.
     *   Also, check the [documentation for experimental models](https://ai.google.dev/gemini-api/docs/models/experimental-models). Experimental models often offer the latest advancements and might provide better performance, but come with the caveat of potential instability or changes.
 
 2.  **Identify a More Powerful Model (If Available):**
@@ -95,15 +93,8 @@ Currently, the application is not using the most powerful model. To optimize the
         *   **Reasoning Capabilities:** Is it designed for complex reasoning tasks that might be beneficial for understanding and extracting information from diverse web content?
         *   **Speed and Cost:** While power is the focus, also consider the balance between performance, speed, and potential cost implications if different models have varying pricing.
 
-3.  **Plan for Model Update (Next Step):**
+3.  **Migrate to new model (if needed):**
     *   Decide if you want to upgrade to a more powerful model for content extraction. If you identify a suitable candidate apply the change in the code the change.
 
 
-    ### Next Steps
-    Run the application with 
-    ```
-    npm run dev
-    ```
-
-    Try out the extractin with one or multiple webpages and entity descriptions. You are not limited to GCP documentation pages. You could also extract product details from ecommerce pages, or similar...
-    
+Congratulations, you finished Challenge 1! On to the next one (by switching to the next challenge branch).
