@@ -105,8 +105,8 @@ To complete the search functionality, we still need to:
 You can refer to the [Firestore Vector Search Documentation](https://firebase.google.com/docs/firestore/vector-search#make_a_nearest-neighbor_query).
 
 ### Your Task
-
-Implement the nearest neighbor search in the vector search route.
+1. Fix the input to the similarity search hook that is called in the Search front end
+2. Implement the nearest neighbor search in the vector search route. Use the Firestore Documentation above as syntax guide. 
 
 
 ## Step 4: Implement Summary Generation 📝

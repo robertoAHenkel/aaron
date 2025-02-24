@@ -33,7 +33,8 @@ const SemanticSearchPage = () => {
 
     try {
       // Perform vector search
-      const searchResults = await performSearch(query);
+      // TODO: Correct the vector search input variable
+      const searchResults = await performSearch("Hello World");
       console.log('Vector search results:', searchResults);
 
       // Generate summary if we have results
