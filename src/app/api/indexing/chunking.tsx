@@ -10,12 +10,9 @@ export interface ChunkingConfig {
 }
 
 export class DocumentChunker {
-  private splitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 500,
-    chunkOverlap: 30,
-  });
-
+  
   // TODO: Implement Splitter (e.g. RecursiveCharacterTextSplitter)
+  private splitter = 
 
   async chunkText(text: string): Promise<string[]> {
     
