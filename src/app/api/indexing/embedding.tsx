@@ -14,9 +14,9 @@ export interface EmbeddingConfig {
 
 const DEFAULT_CONFIG: EmbeddingConfig = {
   maxBatchSize: 5, 
-  modelId: // TODO: Embedding Model Identified
+  modelId: 'text-multilingual-embedding-002',// TODO: Embedding Model Identified
   location: process.env.GCP_REGION || 'europe-west1',
-  dimensionality: // TODO: Add model dimensionality
+  dimensionality: 768// TODO: Add model dimensionality
 };
 
 
@@ -40,7 +40,7 @@ export class EmbeddingService {
    */
   async getEmbeddings(texts: string[]): Promise<number[][]> {
     const embeddings: number[][] = [];
-    
+    console.log('Getting embeddings');
     // Process in batches due to API limits
     for (let i = 0; i < texts.length; i += this.config.maxBatchSize) {
       const batch = texts.slice(i, i + this.config.maxBatchSize);
