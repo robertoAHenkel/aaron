@@ -2,6 +2,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PromptTemplate } from "@langchain/core/prompts";
 import { geminiService } from '@/lib/google-ai-studio/gemini';
+import { Langfuse } from "langfuse";
+
+const langfuse = new Langfuse({ 
+  publicKey: process.env.LF_PUBLIC_KEY,
+  secretKey: process.env.LF_SECRET_KEY,
+  baseUrl: "https://cloud.langfuse.com"});
 
 // Create the RAG-aware summary prompt template
 
@@ -20,6 +26,10 @@ interface SearchResult {
 export async function POST(request: NextRequest) {
   try {
     const { query, context } = await request.json();
+
+    const trace = langfuse.trace({
+      name: "search-triggered",
+    });
 
     if (!query) {
       return NextResponse.json({
@@ -48,9 +58,20 @@ export async function POST(request: NextRequest) {
       question: ,
       context: ,
     });
+    
+    // Start Langfuse Generation Tracking
+    const generation = trace.generation({
+      name: "search-summary",
+      input: formattedPrompt,
+    });
 
     // Call the model
     const result = await geminiService.generateContent(formattedPrompt);
+
+
+    generation.end({
+      output: result,
+    });
 
     return NextResponse.json({ 
       summary: result,
